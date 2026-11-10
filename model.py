@@ -46,7 +46,6 @@ class Params:
 
 
 def void_fraction(ar, rs, rw):
-    """Average steam volume fraction in risers, Eq. 12."""
     ar = np.maximum(ar, 1e-7)
     D = rw - rs
     eta = ar * D / rs
@@ -54,7 +53,6 @@ def void_fraction(ar, rs, rw):
 
 
 def void_derivs(ar, rs, rw, drs, drw):
-    """d(abar_v)/d(alpha_r) and d(abar_v)/dp  (Eq. 26, differentiated analytically)."""
     ar = np.maximum(ar, 1e-7)
     D = rw - rs
     eta = ar * D / rs
@@ -80,17 +78,14 @@ class DrumBoiler:
             self.calibrate_V0sd()
 
     def closure_downcomer_flow(self, av, rs, rw):
-        """Steady-state momentum balance, Eq. 15."""
         P = self.P
         return np.sqrt(2.0 * rw * P.Adc * (rw - rs) * G * av * P.Vr / P.k)
 
     def closure_steam_through_surface(self, Vsd, ar, qdc, qr, rs):
-        """Empirical model for steam flow through the drum liquid surface, Eq. 18."""
         P = self.P
         return rs / P.Td * (Vsd - P.V0sd) + ar * qdc + ar * P.beta * (qdc - qr)
 
     def _coeffs(self, x):
-        """Assemble matrix E (Eq. 24/25) and return helper quantities."""
         P = self.P
         Vwt, p, ar, Vsd = x
         s = steam.props(p)
@@ -160,7 +155,6 @@ class DrumBoiler:
                     qsd=qsd, ts=s["t_s"], hc=hc)
 
     def steady_state(self, p, qs, hf, Vwd=None):
-        """Equilibrium (Sec. 4.8): give p, qs, hf -> returns x0, u0."""
         P = self.P
         s = steam.props(p)
         rs, rw, hs, hw, hc = s["rho_s"], s["rho_w"], s["h_s"], s["h_w"], s["h_c"]
@@ -178,7 +172,6 @@ class DrumBoiler:
         return np.array([Vwt, p, ar, Vsd]), (Q, qf, qs, hf)
 
     def calibrate_V0sd(self, p=8.5e6, qs=50.0, hf=1.0e6):
-        """Choose V0sd so that Vsd = Vsd_nom at the medium-load reference point."""
         s = steam.props(p)
         self.P.V0sd = self.P.Vsd_nom + self.P.Td * (s["h_w"] - hf) / (s["rho_s"] * s["h_c"]) * qs
 
