@@ -12,7 +12,6 @@ import plots
 st.set_page_config(page_title="Drum-boiler dynamics", layout="wide")
 st.title("Drum-boiler dynamics — Åström & Bell Model")
 
-# ------------------------------- sidebar ---------------------------------------
 sb = st.sidebar
 sb.header("Operating point")
 op_name = sb.selectbox("Preset", list(OPERATING_POINTS) + ["Custom"])
@@ -45,11 +44,10 @@ t_end = sb.number_input("Duration [s]", 50.0, 4000.0, 200.0, 50.0)
 tfb = sb.checkbox("Turbine feedback: steam flow ∝ pressure", value=(mode.startswith("PRBS"))) if mode != "Plant data (CSV)" else False
 compare = sb.checkbox("Overlay medium vs high load (Figs 6/7 style)", value=False)
 
-# ------------------------------- simulation ------------------------------------
 @st.cache_data(show_spinner="Integrating model…")
 def run(pv_items, p_pa, qs, hf, ch, amp, t_step, t_end, mode, seed=1, data=None, tfb=False):
     params = Params(**dict(pv_items))
-    m = DrumBoiler(params)                      # V0sd calibrated at medium-load reference
+    m = DrumBoiler(params)                      
     x0, u0 = m.steady_state(p_pa, qs, hf)
     scale = 1e6 if ch == "Q" else 1.0
     if mode == "Step":
@@ -88,7 +86,6 @@ try:
 except Exception as e:
     st.error(f"Simulation failed: {e}"); st.stop()
 
-# ------------------------------- KPIs -------------------------------------------
 r0 = runs[0]
 c = st.columns(5)
 c[0].metric("Initial αr", f"{r0['ar'][0]:.4f}")
