@@ -57,8 +57,8 @@ def void_derivs(ar, rs, rw, drs, drw):
     D = rw - rs
     eta = ar * D / rs
     L = np.log1p(eta)
-         dav_dar = rw / rs * (L / eta**2 - 1.0 / (eta * (1.0 + eta)))
-         A = 1.0 - L / eta
+    dav_dar = rw / rs * (L / eta**2 - 1.0 / (eta * (1.0 + eta)))
+    A = 1.0 - L / eta
     dg_drw_direct = A / D
     dg_dD = -rw / D**2 * A
     dg_deta = rw / D * (-1.0 / ((1.0 + eta) * eta) + L / eta**2)
@@ -128,16 +128,16 @@ class DrumBoiler:
         rs, rw, hs, hw, hc = s["rho_s"], s["rho_w"], s["h_s"], s["h_w"], s["h_c"]
         qdc = self.closure_downcomer_flow(av, rs, rw)
         b = np.array([qf - qs,
-                      Q + qf * hf - qs * hs,
-                      Q - ar * hc * qdc,
-                      rs / P.Td * (P.V0sd - Vsd) + (hf - hw) / hc * qf])
+        Q + qf * hf - qs * hs,
+        Q - ar * hc * qdc,
+        rs / P.Td * (P.V0sd - Vsd) + (hf - hw) / hc * qf])
         return np.linalg.solve(E, b)
 
     def outputs(self, x, xdot, u_vals):
         P = self.P
         Q, qf, qs, hf = u_vals
         if self.p_ref:
-            qs = qs * x[1] / self.p_ref
+                qs = qs * x[1] / self.p_ref
         E, h = self._coeffs(x)
         s, av, Vwd, Vst = h["s"], h["av"], h["Vwd"], h["Vst"]
         Vwt, p, ar, Vsd = x
