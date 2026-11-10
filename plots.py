@@ -1,4 +1,3 @@
-"""Plotly panel builders mirroring the layout of Figs 4-7 in the paper."""
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -7,7 +6,6 @@ COLORS = ["#1f77b4", "#d62728", "#2ca02c", "#9467bd"]
 
 
 def _panel(spec, results, labels, t_shift=0.0, height=760):
-    """spec: list of (title, key-or-callable, scale, unit) laid out row-major in 2 columns."""
     rows = int(np.ceil(len(spec) / 2))
     fig = make_subplots(rows=rows, cols=2, subplot_titles=[s[0] for s in spec],
                         vertical_spacing=0.09, horizontal_spacing=0.08)
@@ -29,7 +27,7 @@ def _panel(spec, results, labels, t_shift=0.0, height=760):
     return fig
 
 
-def state_panel(results, labels, **kw):          # Figs 4 / 5
+def state_panel(results, labels, **kw):        
     spec = [("Drum pressure p", "p", 1e-6, "MPa"),
             ("Total water volume Vwt", "Vwt", 1, "m³"),
             ("Steam quality at riser outlet αr", "ar", 1, "–"),
@@ -39,7 +37,7 @@ def state_panel(results, labels, **kw):          # Figs 4 / 5
     return _panel(spec, results, labels, **kw)
 
 
-def level_panel(results, labels, **kw):          # Figs 6 / 7
+def level_panel(results, labels, **kw):         
     spec = [("Drum water level l", "l", 1, "m"),
             ("Drum pressure p", "p", 1e-6, "MPa"),
             ("Water-level contribution lw", "lw", 1, "m"),
@@ -50,7 +48,6 @@ def level_panel(results, labels, **kw):          # Figs 6 / 7
 
 
 def fig3_curve(model, p, n=60):
-    """Steady-state ᾱv and αr vs input power (Fig. 3) at pressure p."""
     import steam
     from model import void_fraction
     s = steam.props(p)
