@@ -22,6 +22,3 @@ Phase 1: 4th-order natural-circulation drum-boiler model with the paper's empiri
 ## Validation status
 * Step responses (Figs 4-7): same states, shapes and signs; shrink/swell and medium-vs-high-load differences reproduced. Magnitudes are close but not identical (e.g. pressure ramp ≈ 2.8 kPa/s vs ≈ 2 kPa/s read from Fig. 4).
 * Plant comparisons (Figs 8-16) need the Lund/Sydkraft PRBS data, which the paper does not tabulate. Use the dashboard's "Plant data (CSV)" mode (t, Q_MW, qf, qs [, p_MPa, level_m]).
-
-## Phase 2 (Jha et al. water-tube-boiler physics)
-Empirical pieces to replace are isolated in `DrumBoiler.closure_downcomer_flow`, `closure_steam_through_surface` and `void_fraction`/`void_derivs`. Rows 3-4 of the E matrix (`_coeffs`) depend on those closures and must be re-derived accordingly.
